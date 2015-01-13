@@ -18,7 +18,6 @@ import java.util.Map;
  * @author Lucas Hill
  * @version 1.0
  */
-@Test
 @ContextConfiguration("classpath:SupermarketTest-context.xml")
 public class SupermarketTest extends AbstractTestNGSpringContextTests {
     @Autowired
@@ -35,11 +34,21 @@ public class SupermarketTest extends AbstractTestNGSpringContextTests {
     }
 
     /**
+     * Tests the condition when a discount is applied for an item, however there are instances of the same item left
+     * that will not be discounted.
+     */
+    @Test
+    public void discountedWithRemainderTest() {
+        final int checkoutTotal = supermarket.checkout("ABBACBBABB");
+        Assert.assertEquals(checkoutTotal, 290, "Checkout total did not match correct value");
+    }
+
+    /**
      * Tests a checkout string which does not reach the threshold for achieving a discount.
      */
     @Test
     public void saleAmountUnreachedTest() {
-        final int checkoutTotal = supermarket.checkout("ABACBBAB");
+        final int checkoutTotal = supermarket.checkout("CABABABB");
         Assert.assertEquals(checkoutTotal, 290, "Checkout total did not match correct value");
     }
 

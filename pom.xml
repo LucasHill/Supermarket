@@ -13,6 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.1.4.RELEASE</spring.version>
+    <testng.version>6.8.13</testng.version>
   </properties>
 
   <dependencies>
@@ -33,7 +34,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.8.13</version>
+      <version>${testng.version}</version>
       <scope>test</scope>
     </dependency>
 
