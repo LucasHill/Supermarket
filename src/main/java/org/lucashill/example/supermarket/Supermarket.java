@@ -1,27 +1,14 @@
 package org.lucashill.example.supermarket;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class Supermarket {
     private Map<Character, Integer> itemCostMap;
-    private Map<Character, AbstractMap.SimpleEntry<Integer, Integer>> itemDiscountMap;
+    private Map<Character, List<Integer>> itemDiscountMap;
 
-    public Supermarket() {
-        itemCostMap = new HashMap<Character, Integer>();
-        itemDiscountMap = new HashMap<Character, AbstractMap.SimpleEntry<Integer, Integer>>();
-
-        this.itemCostMap.put('A', 20);
-        this.itemCostMap.put('B', 50);
-        this.itemCostMap.put('C', 30);
-
-        AbstractMap.SimpleEntry<Integer, Integer> itemDiscountValue = new AbstractMap.SimpleEntry<Integer, Integer>(5, 3);
-        this.itemDiscountMap.put('B', itemDiscountValue);
-    }
-
-    public Supermarket(Map<Character, Integer> itemCostMap, Map<Character, AbstractMap.SimpleEntry<Integer, Integer>> itemDiscountMap) {
+    public Supermarket(Map<Character, Integer> itemCostMap, Map<Character, List<Integer>> itemDiscountMap) {
         this.itemCostMap = itemCostMap;
         this.itemDiscountMap = itemDiscountMap;
     }
@@ -83,12 +70,12 @@ public class Supermarket {
     private int calculateCostForDiscountChar(char character, int numChars) {
         final int charPrice = itemCostMap.get(character);
 
-        final AbstractMap.SimpleEntry<Integer, Integer> discountForChar = itemDiscountMap.get(character);
-        final int numDiscounts = Math.floorDiv(numChars, discountForChar.getKey());
+        final List<Integer> discountForChar = itemDiscountMap.get(character);
+        final int numDiscounts = Math.floorDiv(numChars, discountForChar.get(0));
         int discountCost = 0;
 
-        if(safeMultiply(numDiscounts, discountForChar.getValue())) {
-            int temp = numDiscounts*discountForChar.getValue();
+        if(safeMultiply(numDiscounts, discountForChar.get(1))) {
+            int temp = numDiscounts*discountForChar.get(1);
             if(safeMultiply(temp, charPrice)) {
                 discountCost = temp*charPrice;
             } else {
@@ -99,8 +86,8 @@ public class Supermarket {
         }
 
         int nonDiscountCost = 0;
-        if(safeMultiply(numChars % discountForChar.getKey(), charPrice)) {
-            nonDiscountCost = numChars % discountForChar.getKey()*charPrice;
+        if(safeMultiply(numChars % discountForChar.get(0), charPrice)) {
+            nonDiscountCost = numChars % discountForChar.get(0)*charPrice;
         } else {
             throw new ArithmeticException("Total checkout value greater than max integer value");
         }

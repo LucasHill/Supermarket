@@ -1,5 +1,8 @@
 package org.lucashill.example.supermarket;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,8 +18,11 @@ import java.util.Map;
  * @author Lucas Hill
  * @version 1.0
  */
-public class SupermarketTest {
-    private final static Supermarket supermarket = new Supermarket();
+@Test
+@ContextConfiguration("classpath:SupermarketTest-context.xml")
+public class SupermarketTest extends AbstractTestNGSpringContextTests {
+    @Autowired
+    private Supermarket supermarket;
 
     /**
      * Tests basic functionality of the checkout method, a given string (that should have a discount applied)
